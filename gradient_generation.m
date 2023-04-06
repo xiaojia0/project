@@ -87,8 +87,8 @@
 
                  gm = gm.fit(cor_ceb_mean);
 
-%                plot
-%                plot_hemispheres(gm.gradients{1}(:,1:2),g1,'parcellation', label);
+               % plot
+               % plot_hemispheres(gm.gradients{1}(:,1:2),g1,'parcellation', label);
                 
    
                 % plot the component 
@@ -133,7 +133,7 @@
                 s13= '_gradient7_5k.func.gii';
                 s14 = '_gradient8_5k.func.gii';
                 
-            
+                % 1
                 ROI_name = strcat(s5,s6,s7);
                 
                 gg2.cdata=label2;
@@ -156,26 +156,26 @@
                 saveg(gg2,ROI_name);
                 %4
                 
-                  ROI_name = strcat(s5,s6,s10);
+                ROI_name = strcat(s5,s6,s10);
                 
                 gg2.cdata=label5;
                
                 saveg(gg2,ROI_name);
 
-                 %5            
-                 ROI_name = strcat(s5,s6,s11);
+                %5            
+                ROI_name = strcat(s5,s6,s11);
                 gg2.cdata=label6;
               
                 saveg(gg2,ROI_name);
                 
-                 %6
+                %6
                 ROI_name = strcat(s5,s6,s12);
                 
                 gg2.cdata=label7;
                
                 saveg(gg2,ROI_name);
                 
-                 %7
+                %7
                 ROI_name = strcat(s5,s6,s13);
                 
                 gg2.cdata=label8;
@@ -183,7 +183,7 @@
                 saveg(gg2,ROI_name);
 
                 %8
-                  ROI_name = strcat(s5,s6,s14);
+                ROI_name = strcat(s5,s6,s14);
                 
                 gg2.cdata=label9;
                

@@ -73,58 +73,10 @@ mris_extract_main_component rh.orig.nofix rh.orig
 ## cp to surf/
 cp rh.orig ../surf/rh.orig
 
-## make pial
 
-mris_make_surfaces  -max 50000  -r ${r} -max_csf 0.1  -min_gray_at_csf_border 1   -orig_white orig -orig_pial orig   -noaseg   -noaparc -mgz -T1 fake_T1_sm2 ${subject} rh
-
-## make the surface to ori
-
-
-mris_convert rh.pial rh.pial.surf.gii
-mris_convert rh.orig rh.orig.surf.gii
-
-ConvertSurface -i rh.orig.surf.gii -o rh.orig_scale008.gii -xmat_1D scale0.8.1D
-ConvertSurface -i rh.pial.surf.gii -o rh.pial_scale008.gii -xmat_1D scale0.8.1D
-
-3dcopy wm.nii.gz test_wm.nii.gz
-
-3drefit -xdel 0.08 -ydel 0.08 -zdel 0.08 -keepcen test_wm.nii.gz
-
-
-@Align_Centers -cm -base wm_or.nii.gz -dset test_wm.nii.gz
-
-ConvertSurface -i rh.orig_scale008.gii -o rh.orig_scale008_shifti.gii -ixmat_1D test_wm_shft.1D
-ConvertSurface -i rh.pial_scale008.gii -o rh.pial_scale008_shifti.gii -ixmat_1D test_wm_shft.1D
-
-
-##smooth
 
 mris_smooth -a 2 -n 2  rh.pial_scale008_shifti.gii rh.pial_scale008_shifti_sm.surf.gii
 mris_smooth -a 2 -n 2  rh.orig_scale008_shifti.gii rh.orig_scale008_shifti_sm.surf.gii
-
-
-#map the ROI use the wb_command 
-
-wb_command -volume-to-surface-mapping Marmoset_ceb_lobe.nii.gz rh.pial_scale008_shifti_sm_005.surf.gii Marmoset_ceb_lobe_map_005.func.gii -ribbon-constrained rh.orig_scale008_shifti_sm_005.surf.gii rh.pial_scale008_shifti_sm_005.surf.gii  -volume-roi Marmoset_ceb_lobe.nii.gz
-
-#map the ROI use the freesurfer(better)
-
-export SUBJECTS_DIR=/mnt/surfface_item/iso008
-source ~/.bashrc
-
-3dresample -orient RSP  -prefix Marmoset_ceb_lobe2_RSP.nii.gz -insert Marmoset_ceb_lobe2.nii.gz 
-3drefit -xorigin_raw 0 -yorigin_raw 0 -zorigin_raw 0 Marmoset_ceb_lobe2_RSP.nii.gz 
-3drefit -xorigin 13.96 -yorigin 11.96 -zorigin 19.16 Marmoset_ceb_lobe2_RSP.nii.gz 
-mri_convert  Marmoset_ceb_lobe2_RSP.nii.gz Marmoset_ceb_lobe2_RSP01.nii.gz -iis 0.1 -ijs 0.1 -iks 0.1
-
-cd surf/
-mv rh.pial rh.pial_or
-mv rh.orig rh.orig_or
-
-mris_convert rh.pial_scale008_shifti_sm.surf.gii rh.pial
-mris_convert rh.orig_scale008_shifti_sm.surf.gii rh.orig
-
-mri_vol2surf --src Marmoset_ceb_lobe2_RSP01.nii.gz --out Marmoset_ceb_lobe2_RSP01.shape.gii --regheader marmoset --hemi rh
 
 
 
